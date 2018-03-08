@@ -1,0 +1,2 @@
+# AndroidViewTool
+Android开发工具，可以显示当前显示的activity包名和类名
