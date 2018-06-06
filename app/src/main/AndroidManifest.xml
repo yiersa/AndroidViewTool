@@ -37,7 +37,7 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/view_debug_helper" />
         </service>
-        <activity android:name=".colorpicker.ColorPickerActivity"/>
+
     </application>
 
 </manifest>

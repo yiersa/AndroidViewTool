@@ -1,6 +1,6 @@
 package com.zanlabs.viewdebughelper;
 
-import android.content.Intent;
+
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.zanlabs.viewdebughelper.colorpicker.ColorPickerActivity;
+
 import com.zanlabs.viewdebughelper.service.FloatWindowService;
 import com.zanlabs.viewdebughelper.util.AccessibilityServiceHelper;
 
@@ -85,11 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(HomeActivity.this,ColorPickerActivity.class);
-            startActivity(intent);
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
