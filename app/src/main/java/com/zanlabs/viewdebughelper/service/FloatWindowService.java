@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.widget.Toast;
 
+import com.zanlabs.viewdebughelper.HomeActivity;
 import com.zanlabs.viewdebughelper.MyWindowManager;
 
 import java.util.Timer;
@@ -31,12 +34,24 @@ public class FloatWindowService extends Service {
     /**
      * 用于在线程中创建或移除悬浮窗。
      */
-    private Handler handler = new Handler();
-
-    /**
-     * 定时器，定时进行检测当前应该创建还是移除悬浮窗。
-     */
-    private Timer timer;
+   private MyHandler handler;
+    class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(!isRunning) {
+                handler.removeMessages(1);
+                return;
+            }
+            // 当前界面是桌面，且没有悬浮窗显示，则创建悬浮窗。
+            if (!MyWindowManager.isWindowShowing()) {
+                MyWindowManager.createFloatWindow(getApplicationContext());
+            }else{
+                MyWindowManager.updateCurrentTopActvity(getApplicationContext());
+            }
+            handler.sendEmptyMessageDelayed(1, 1000);
+        }
+    }
 
     public FloatWindowService() {
     }
@@ -44,12 +59,9 @@ public class FloatWindowService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        handler = new MyHandler();
         isRunning=true;
-        // 开启定时器，每隔0.5秒刷新一次
-        if (timer == null) {
-            timer = new Timer();
-            timer.scheduleAtFixedRate(new RefreshTask(), 0, 500);
-        }
+        handler.sendEmptyMessage(1);
     }
 
 
@@ -57,40 +69,13 @@ public class FloatWindowService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyWindowManager.removeFloatWindow(getApplicationContext());
         isRunning=false;
+        handler.removeMessages(1);
+        MyWindowManager.removeFloatWindow(getApplicationContext());
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not support");
-    }
-
-    class RefreshTask extends TimerTask {
-
-        @Override
-        public void run() {
-            if(!isRunning)
-                return;
-            // 当前界面是桌面，且没有悬浮窗显示，则创建悬浮窗。
-            if (!MyWindowManager.isWindowShowing()) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!isRunning)
-                            return;
-                        MyWindowManager.createFloatWindow(getApplicationContext());
-                    }
-                });
-            }else{
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MyWindowManager.updateCurrentTopActvity(getApplicationContext());
-                    }
-                });
-            }
-        }
-
     }
 }

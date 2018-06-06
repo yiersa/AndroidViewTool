@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setServiceState(){
         mIsServiceRunning=FloatWindowService.isRunning();
         if(mActionBtn!=null){
-            mActionBtn.setText(mIsServiceRunning?"停止服务":"启动服务");
+            mActionBtn.setText(mIsServiceRunning?"已停止服务":"已启动服务");
         }
     }
 

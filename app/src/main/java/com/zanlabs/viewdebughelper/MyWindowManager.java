@@ -41,10 +41,11 @@ public class MyWindowManager {
 			mFloatWindow = new FloatWindowView(context);
 			if (mFloatWindowParams == null) {
 				mFloatWindowParams = new LayoutParams();
-				mFloatWindowParams.type = LayoutParams.TYPE_TOAST;
+				mFloatWindowParams.type = LayoutParams.TYPE_SYSTEM_ALERT;
 				mFloatWindowParams.format = PixelFormat.RGBA_8888;
 				mFloatWindowParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-						| LayoutParams.FLAG_NOT_FOCUSABLE |LayoutParams.FLAG_KEEP_SCREEN_ON |LayoutParams.FLAG_FULLSCREEN;
+						| LayoutParams.FLAG_NOT_FOCUSABLE |LayoutParams.FLAG_KEEP_SCREEN_ON
+						|LayoutParams.FLAG_FULLSCREEN;
 				mFloatWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
 				mFloatWindowParams.width = FloatWindowView.viewWidth;
 				mFloatWindowParams.height = FloatWindowView.viewHeight;
